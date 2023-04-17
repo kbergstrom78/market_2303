@@ -24,8 +24,20 @@ RSpec.describe Market do
       expect(@market.name).to eq("South Pearl Street Farmers Market")    
       expect(@market.vendors).to eq([])
     end
-  
   end
 
+  describe '#add_vendor' do
+    it 'adds vendors to market' do
+      @vendor1.stock(@item1, 35)
+      @vendor1.stock(@item2, 7)
+      @vendor2.stock(@item4, 50)
+      @vendor2.stock(@item3, 25)
+      @vendor3.stock(@item1, 65)  
+      @market.add_vendor(@vendor1)
+      @market.add_vendor(@vendor2)
+      @market.add_vendor(@vendor3)
+      expect(@market.vendors).to eq([@vendor1, @vendor2, @vendor3])
+    end
+  end
 
 end 

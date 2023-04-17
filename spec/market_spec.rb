@@ -68,4 +68,31 @@ RSpec.describe Market do
       expect(@market.vendors_that_sell(@item4)).to eq([@vendor2])
     end
   end
+
+  describe '#total_inventory' do
+    it 'reports qty of all items sold' do
+    expect(@market.total_inventory).to eq({}) 
+    @vendor1.stock(@item1, 35)
+    @vendor1.stock(@item2, 7)
+    @vendor2.stock(@item4, 50)
+    @vendor2.stock(@item3, 25)
+    @vendor3.stock(@item1, 65)  
+    @market.add_vendor(@vendor1)
+    @market.add_vendor(@vendor2)
+    @market.add_vendor(@vendor3)
+    expect(@market.total_inventory).to eq({ 
+                                          @item1 => {quantity: 100, vendors: [@vendor1, @vendor3]},
+                                          @item2 => {quantity: 7, vendors: [@vendor1]},
+                                          @item3 => {quantity: 25, vendors: [@vendor2]},
+                                          @item4 => {quantity: 50, vendors: [@vendor2]}
+                                        })
+    end
+  end
 end 
+
+
+# Reports the quantities of all items sold at the market.
+# Specifically, it should return a hash with items as keys and hashes as values 
+# - this sub-hash should have two key/value pairs: quantity pointing to total 
+# inventory for that item and vendors pointing to an array of the vendors that 
+# sell that item.

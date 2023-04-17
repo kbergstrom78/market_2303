@@ -25,5 +25,16 @@ class Market
     sources
   end
 
-
+  def total_inventory
+    market_total = {}
+    @vendors.each do |vendor|
+      vendor.inventory.each do |item, amount|
+        sum_total = vendors_that_sell(item).sum do |sum_vendor|
+          sum_vendor.inventory[item]
+        end
+        market_total[item] = {quantity: sum_total, vendors: vendors_that_sell(item)}
+      end
+    end
+    market_total
+  end
 end

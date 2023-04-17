@@ -88,7 +88,41 @@ RSpec.describe Market do
                                         })
     end
   end
+
+  describe '#overstocked_items' do
+    it 'lists items that have been overstocked' do
+      @vendor1.stock(@item1, 35)
+      @vendor1.stock(@item2, 7)
+      @vendor2.stock(@item4, 50)
+      @vendor2.stock(@item3, 25)
+      @vendor3.stock(@item1, 65)  
+      @market.add_vendor(@vendor1)
+      @market.add_vendor(@vendor2)
+      @market.add_vendor(@vendor3)
+      expect(@market.overstocked_items).to eq([@item1])
+      @vendor3.stock(@item3, 80)
+      expect(@market.overstocked_items).to eq([@item1, @item3])
+    end
+  end
+
+  describe '#sorted_item_list' do
+    it 'lists all items in stock in alpha order' do
+      @vendor1.stock(@item1, 35)
+      @vendor1.stock(@item2, 7)
+      @vendor2.stock(@item4, 50)
+      @vendor2.stock(@item3, 25)
+      @vendor3.stock(@item1, 65)  
+      @market.add_vendor(@vendor1)
+      @market.add_vendor(@vendor2)
+      @market.add_vendor(@vendor3)
+      expect(@market.sorted_item_list).to eq(["Banana Nice Cream", "Peach", "Peach-Raspberry Nice Cream", "Tomato"])
+    end
+  end
 end 
+
+
+
+
 
 
 # Reports the quantities of all items sold at the market.

@@ -118,12 +118,14 @@ RSpec.describe Market do
       expect(@market.sorted_item_list).to eq(["Banana Nice Cream", "Peach", "Peach-Raspberry Nice Cream", "Tomato"])
     end
   end
+
+  describe '#date' do
+    it 'can return a date' do
+    allow(@market.date).to receive(:day).and_return("05/05/2021")
+    expect(@market.date.day).to eq("05/05/2021")
+    end
+  end
 end 
-
-
-
-
-
 
 # Reports the quantities of all items sold at the market.
 # Specifically, it should return a hash with items as keys and hashes as values 
